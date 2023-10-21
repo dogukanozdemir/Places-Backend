@@ -20,6 +20,14 @@ import java.util.Map;
 @Slf4j
 public class GlobalExceptionHandler {
 
+  @ExceptionHandler(value = Exception.class)
+  public ResponseEntity<Object> defaultErrorHandler(
+      HttpServletRequest req, HttpServletResponse res, Exception e) {
+    return new ResponseEntity<>(
+        ExceptionResponse.builder().time(LocalDateTime.now()).error(e.getMessage()).build(),
+        HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
   @ExceptionHandler(value = MethodArgumentNotValidException.class)
   public ResponseEntity<Object> methodArgumentNotValidHandler(
       HttpServletRequest req, HttpServletResponse res, MethodArgumentNotValidException e) {
