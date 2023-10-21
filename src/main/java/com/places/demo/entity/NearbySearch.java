@@ -17,7 +17,7 @@ import java.util.Set;
 @Setter
 @Table(
     name = "nearby_searches",
-    indexes = {@Index(name = "idx_latitude_longitude", columnList = "latitude,longitude")})
+    indexes = {@Index(name = "idx_latitude_longitude_radius", columnList = "latitude,longitude,radius")})
 @NamedEntityGraph(
     name = "graph.nearbySearch.attribute.options",
     attributeNodes = {@NamedAttributeNode(value = "locations")})
@@ -30,6 +30,8 @@ public class NearbySearch {
   private Double latitude;
 
   private Double longitude;
+
+  private Integer radius;
 
   private String keyword;
 
