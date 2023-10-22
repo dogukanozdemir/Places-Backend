@@ -33,7 +33,7 @@ public class NearbySearchLocation {
 
     private String name;
 
-    private Double rating;
+    private Float rating;
 
     private String vicinity;
 
