@@ -10,5 +10,4 @@ public interface NearbySearchRepository extends JpaRepository<NearbySearch, Long
 
   Optional<NearbySearch> findByLatitudeAndLongitudeAndRadius(
       Double latitude, Double longitude, Integer radius);
-
 }

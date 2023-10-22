@@ -20,28 +20,25 @@ import java.time.LocalDateTime;
 @Table(name = "nearby_search_locations")
 public class NearbySearchLocation {
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @ManyToOne private NearbySearch nearbySearch;
 
-    @ManyToOne private NearbySearch nearbySearch;
+  private Double latitude;
 
-    private Double latitude;
+  private Double longitude;
 
-    private Double longitude;
+  private String name;
 
-    private String name;
+  private Float rating;
 
-    private Float rating;
+  private String vicinity;
 
-    private String vicinity;
+  private String type;
 
-    private String type;
+  @CreationTimestamp private LocalDateTime createdAt;
 
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
+  @UpdateTimestamp private LocalDateTime updatedAt;
 }

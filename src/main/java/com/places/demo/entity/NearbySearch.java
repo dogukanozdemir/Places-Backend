@@ -17,7 +17,9 @@ import java.util.Set;
 @Setter
 @Table(
     name = "nearby_searches",
-    indexes = {@Index(name = "idx_latitude_longitude_radius", columnList = "latitude,longitude,radius")})
+    indexes = {
+      @Index(name = "idx_latitude_longitude_radius", columnList = "latitude,longitude,radius")
+    })
 public class NearbySearch {
 
   @Id

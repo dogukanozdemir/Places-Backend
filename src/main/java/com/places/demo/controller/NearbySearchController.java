@@ -1,4 +1,5 @@
 package com.places.demo.controller;
+
 import com.places.demo.dto.GetNearbySearchRequest;
 import com.places.demo.dto.NearbySearchLocationPayload;
 import com.places.demo.service.NearbySearchService;
