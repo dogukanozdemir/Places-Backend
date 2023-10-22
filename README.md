@@ -1,5 +1,8 @@
 # Nearby Search Application
 
+![Google Maps Platform](https://developers.google.com/static/maps/images/google-maps-platform-1200x675.png)
+
+
 The Nearby Search Application is a Java-based backend server that provides a RESTful API for conducting nearby location searches using the Google Places API. 
 This application not only performs real-time searches but also efficiently caches and retrieves responses to minimize the usage of external APIs and enhance performance.
 
