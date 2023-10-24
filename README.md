@@ -59,7 +59,7 @@ google.maps.api.key=your_api_key
 The application exposes a single endpoint for nearby location searches:
 
 **GET**  `/api/nearby-locations`
-This endpoint allows you to perform nearby location searches by providing longitude, latitude, and radius as request body fields.
+This endpoint allows you to perform nearby location searches by providing longitude, latitude, and radius as query parameter fields.
 
 Request Parameters:
 
@@ -67,13 +67,9 @@ Request Parameters:
 * **longitude (double)** - The longitude of the target location.
 * **radius (integer)** - The search radius in meters.
 
-**Example Request Body**:
-```json
-{
-    "latitude" : 41.03,
-    "longitude": 29.02,
-    "radius" : 100
-}
+**Example Request Url**:
+```curl
+localhost:8070/api/nearby-locations?latitude=41.049811&longitude=29.053948&radius=100
 ```
 
 **Example Response**:
@@ -122,33 +118,8 @@ This helps reduce the number of external API calls and speeds up response times 
 
 ## Validation
 
-The API validates all incoming requests, whether the information is passed through request parameters or request bodies, using the *Jakarta*, Any values that are considered invalid are reported and are responded to the client with appropriate error messages.
+The API validates all incoming requests, when the information is passed through request parameters, using the *Jakarta*, Any values that are considered invalid are reported and are responded to the client with appropriate error messages.
 
-**Example:**
-
-Here is an example of an invalid submission:
-
-
-```json
-{
-    "radius" : 100
-}
-```
-
-**Example Response:**
-
-When the API detects invalid data, it returns an error response to the client, including the current timestamp, an error message, and a detailed list of specific errors:
-
-```json
-{
-    "time": "2023-10-22T16:03:42.40059",
-    "error": "Constraint Validation Failed",
-    "errors": {
-        "latitude": "must not be null",
-        "longitude": "must not be null"
-    }
-}
-```
 
 ## Global Exception Handling
 
@@ -158,21 +129,12 @@ This mechanism ensures that any unhandled exceptions are caught and dealt with i
 Here is an example that handles all input validation exceptions:
 
 ```java
-  @ExceptionHandler(value = MethodArgumentNotValidException.class)
-  public ResponseEntity<Object> methodArgumentNotValidHandler(
-      HttpServletRequest req, HttpServletResponse res, MethodArgumentNotValidException e) {
-
-    Map<String, String> errorMap = new HashMap<>();
-    e.getBindingResult()
-        .getFieldErrors()
-        .forEach(error -> errorMap.put(error.getField(), error.getDefaultMessage()));
+  @ExceptionHandler(value = Exception.class)
+  public ResponseEntity<Object> defaultErrorHandler(
+      HttpServletRequest req, HttpServletResponse res, Exception e) {
     return new ResponseEntity<>(
-        ExceptionResponse.builder()
-            .time(LocalDateTime.now())
-            .error("Constraint Validation Failed")
-            .errors(errorMap)
-            .build(),
-        HttpStatus.BAD_REQUEST);
+        ExceptionResponse.builder().time(LocalDateTime.now()).error(e.getMessage()).build(),
+        HttpStatus.INTERNAL_SERVER_ERROR);
   }
 ```
 
