@@ -30,6 +30,10 @@ public class NearbySearchService {
 
   public List<NearbySearchLocationPayload> getNearbyLocations(
       GetNearbySearchRequest searchRequest) {
+
+    log.info(searchRequest.longitude().toString());
+    log.info(searchRequest.latitude().toString());
+    log.info(searchRequest.radius().toString());
     return nearbySearchRepository
         .findByLatitudeAndLongitudeAndRadius(
             searchRequest.latitude(), searchRequest.longitude(), searchRequest.radius())
@@ -58,9 +62,6 @@ public class NearbySearchService {
       LatLng location = new LatLng(searchRequest.latitude(), searchRequest.longitude());
       NearbySearchRequest nearbySearchRequest =
           PlacesApi.nearbySearchQuery(geoApiContext, location).radius(searchRequest.radius());
-
-      Optional.ofNullable(searchRequest.keyword()).ifPresent(nearbySearchRequest::keyword);
-
       PlacesSearchResponse response = nearbySearchRequest.await();
       nearbySearchAsyncService.saveSearch(searchRequest, response);
       return Arrays.stream(response.results)

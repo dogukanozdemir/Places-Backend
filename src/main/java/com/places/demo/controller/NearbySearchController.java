@@ -3,14 +3,12 @@ package com.places.demo.controller;
 import com.places.demo.dto.GetNearbySearchRequest;
 import com.places.demo.dto.NearbySearchLocationPayload;
 import com.places.demo.service.NearbySearchService;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,7 +22,10 @@ public class NearbySearchController {
 
   @GetMapping("/nearby-locations")
   public ResponseEntity<List<NearbySearchLocationPayload>> getNearbyLocations(
-      @RequestBody @Validated GetNearbySearchRequest request) {
+      @Validated @RequestParam(name = "latitude") @NotNull Double latitude,
+      @Validated @RequestParam(name = "longitude") @NotNull Double longitude,
+      @Validated @RequestParam(name = "radius") @NotNull Integer radius) {
+    GetNearbySearchRequest request = new GetNearbySearchRequest(latitude, longitude, radius);
     return ResponseEntity.ok(nearbySearchService.getNearbyLocations(request));
   }
 }
